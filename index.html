@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="th">
 <head><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <meta charset="UTF-8">
 <title>Top 12 นักล่าฝัน</title>
 
@@ -284,6 +285,16 @@ button:hover {
 </div>
 
 <script>
+  function saveImage() {
+  const element = document.getElementById("resultPage");
+
+  html2canvas(element).then(canvas => {
+    const link = document.createElement("a");
+    link.download = "top12.png";
+    link.href = canvas.toDataURL();
+    link.click();
+  });
+}
 const maxPick = 12;
 let selected = [];
 
@@ -457,6 +468,7 @@ function submitPick(){
 }
 
 /* ===== result ===== */
+  <button onclick="saveImage()">📸 เซฟ Top 12</button>
 function showResult(){
   document.getElementById("mainPage").classList.add("hidden");
   document.getElementById("resultPage").classList.remove("hidden");

@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>Top 12 นักล่าฝัน</title>
+
+<!-- ฟอนต์ไม่มีหัว -->
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+  font-family: 'Kanit', sans-serif;
+  background: radial-gradient(circle at top, #330000, #000000);
+  color: white;
+  text-align: center;
+}
+
+/* โลโก้ */
+.logo img {
+  width: 180px;
+  margin: 20px;
+}
+
+/* หัวข้อ */
+h1 {
+  color: #ff2e2e;
+  text-shadow: 0 0 15px red;
+  font-weight: 600;
+}
+
+/* ค้นหา */
+#search {
+  padding: 10px;
+  width: 250px;
+  margin: 10px;
+  border-radius: 10px;
+  border: none;
+}
+
+/* grid เลือก */
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* การ์ด */
+.card {
+  background: #220000;
+  margin: 8px;
+  padding: 10px;
+  width: 120px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0 0 10px rgba(255,0,0,0.3);
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px red;
+}
+
+.card img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.selected {
+  background: #ff2e2e;
+}
+
+/* ปุ่ม */
+button {
+  padding: 12px 20px;
+  border-radius: 10px;
+  border: none;
+  background: red;
+  color: white;
+  cursor: pointer;
+  margin: 10px;
+}
+
+button:hover {
+  background: #ff4444;
+}
+
+/* ซ่อน */
+.hidden {
+  display: none;
+}
+
+/* เวที */
+.stage {
+  position: relative;
+}
+/* พื้นที่เวที */
+.stage {
+  position: relative;
+  overflow: hidden;
+}
+
+/* spotlight พื้นฐาน */
+.spotlight {
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, rgba(255,255,255,0.25), transparent 70%);
+  border-radius: 50%;
+  filter: blur(10px);
+}
+
+/* แต่ละดวงเคลื่อนต่างกัน */
+.s1 { top: 10%; left: 10%; animation: move1 6s infinite alternate; }
+.s2 { top: 20%; left: 70%; animation: move2 7s infinite alternate; }
+.s3 { top: 60%; left: 20%; animation: move3 8s infinite alternate; }
+.s4 { top: 70%; left: 60%; animation: move4 6s infinite alternate; }
+.s5 { top: 40%; left: 40%; animation: move5 9s infinite alternate; }
+.s6 { top: 15%; left: 50%; animation: move6 7s infinite alternate; }
+
+/* animation แต่ละดวง */
+@keyframes move1 {
+  from { transform: translate(0,0); }
+  to { transform: translate(150px, 100px); }
+}
+
+@keyframes move2 {
+  from { transform: translate(0,0); }
+  to { transform: translate(-120px, 80px); }
+}
+
+@keyframes move3 {
+  from { transform: translate(0,0); }
+  to { transform: translate(100px, -100px); }
+}
+
+@keyframes move4 {
+  from { transform: translate(0,0); }
+  to { transform: translate(-150px, -80px); }
+}
+
+@keyframes move5 {
+  from { transform: translate(0,0); }
+  to { transform: translate(80px, 120px); }
+}
+
+@keyframes move6 {
+  from { transform: translate(0,0); }
+  to { transform: translate(-100px, 100px); }
+}
+
+.spotlight {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(255,255,255,0.4), transparent);
+  border-radius: 50%;
+  animation: moveLight 5s infinite alternate;
+}
+
+@keyframes moveLight {
+  from { transform: translateX(-100px); }
+  to { transform: translateX(100px); }
+}
+/* ===== LOGO ANIMATION ===== */
+.logo-animate {
+  width: 180px;
+  animation: floatLogo 3s ease-in-out infinite,
+             glowLogo 2s ease-in-out infinite alternate;
+}
+
+/* ลอยขึ้นลง */
+@keyframes floatLogo {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+/* เรืองแสง */
+@keyframes glowLogo {
+  from {
+    filter: drop-shadow(0 0 5px red);
+  }
+  to {
+    filter: drop-shadow(0 0 20px red);
+  }
+}
+
+.logo-animate {
+  width: 320px;
+}
+
+.logo {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/* GRID */
+#resultGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  max-width: 700px;
+  margin: 20px auto;
+}
+
+/* CARD */
+.result-card {
+  background: linear-gradient(145deg, #2a0000, #1a0000);
+  padding: 10px;
+  border-radius: 14px;
+  box-shadow: 0 0 10px rgba(255,0,0,0.3);
+  transition: 0.3s;
+  opacity: 0;
+  transform: translateY(20px) scale(0.9);
+}
+
+/* animation */
+.result-card.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* รูป */
+.result-card img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* ชื่อ */
+.result-card p {
+  margin: 6px 0 0;
+  font-size: 14px;
+}
+
+.rank {
+  margin-bottom: 5px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- โลโก้ -->
+<div class="logo">
+  <img src="logo.png" class="logo-animate">
+</div>
+
+<!-- หน้าเลือก -->
+<div id="mainPage">
+  <h1>เลือก 12 นักล่าฝันตัวจริง  ของคุณ👋🏻🎤</h1>
+  <p id="count">0 / 12</p>
+
+  <input id="search" placeholder="ค้นหาชื่อ...">
+
+  <div class="grid" id="grid"></div>
+
+  <button onclick="submitPick()">ยืนยัน</button>
+</div>
+
+<!-- หน้าผล -->
+<div id="resultPage" class="hidden stage">
+  <div class="spotlight s1"></div>
+<div class="spotlight s2"></div>
+<div class="spotlight s3"></div>
+<div class="spotlight s4"></div>
+<div class="spotlight s5"></div>
+<div class="spotlight s6"></div>
+  <h1>✨12 นักล่าฝันตัวจริง AF2026 ของคุณ✨ </h1>
+  <div id="resultGrid"></div>
+  <button onclick="goBack()">เลือกใหม่</button>
+</div>
+
+<script>
+const maxPick = 12;
+let selected = [];
+
+/* ===== รายชื่อ (แก้ตรงนี้เป็นข้อมูลจริง) ===== */
+const contestants = [
+  { name: "พีโอ ", img: "af01/af1.jpg" },
+  { name: "โอปอล์", img: "af01/af2.jpg" },
+  { name: "นุ่น", img: "af01/af3.jpg" },
+  { name: "ธันย่า", img: "af01/af4.jpg" },
+  { name: "ฉาย", img: "af01/af5.jpg" },
+  { name: "แพรวา", img: "af01/af6.jpg" },
+  { name: "อันชิ", img: "af01/af7.jpg" },
+  { name: "โอม", img: "af01/af8.jpg" },
+  { name: "ฟิล์ม", img: "af01/af9.jpg" },
+  { name: "ยูริ", img: "af01/af10.jpg" },
+
+  { name: "เมอร์ซี่", img: "af01/af11.jpg" },
+  { name: "น้ำใส", img: "af01/af12.jpg" },
+  { name: "ไคริว", img: "af01/af13.jpg" },
+  { name: "บีน้อย", img: "af01/af14.jpg" },
+  { name: "ก้อง", img: "af01/af15.jpg" },
+  { name: "เมโลดี้", img: "af02/af16.jpg" },
+  { name: "กิ๊บ", img: "af02/af17.jpg" },
+  { name: "บิว", img: "af02/af18.jpg" },
+  { name: "กันต์", img: "af02/af19.jpg" },
+  { name: "ตองเกล", img: "af02/af20.jpg" },
+
+  { name: "ตรีรัก", img: "af02/af21.jpg" },
+  { name: "เซ็น", img: "af02/af22.jpg" },
+  { name: "เจเจ", img: "af02/af23.jpg" },
+  { name: "แพลนเน็ต", img: "af02/af24.jpg" },
+  { name: "เดียร์", img: "af02/af25.jpg" },
+  { name: "เมย์", img: "af03/af26.jpg" },
+  { name: "เจมส์", img: "af03/af27.jpg" },
+  { name: "มิวสิค", img: "af03/af28.jpg" },
+  { name: "ทาโร่", img: "af03/af29.jpg" },
+  { name: "แบมบี้", img: "af03/af30.jpg" },
+
+  { name: "บีม", img: "af03/af31.jpg" },
+  { name: "แองจี้", img: "af03/af32.jpg" },
+  { name: "ทีเอ", img: "af03/af33.jpg" },
+  { name: "เอ้", img: "af03/af34.jpg" },
+  { name: "นะโม", img: "af03/af35.jpg" },
+  { name: "เดียร์", img: "af03/af36.jpg" },
+  { name: "เซนต์", img: "af03/af37.jpg" },
+  { name: "นิกกี้", img: "af03/af38.jpg" },
+  { name: "แป้ง", img: "af03/af39.jpg" },
+  { name: "มอส", img: "af03/af40.jpg" },
+
+  { name: "เฌอลินน์", img: "af04/af41.jpg" },
+  { name: "โจวี่", img: "af04/af42.jpg" },
+  { name: "ไทเกอร์", img: "af04/af43.jpg" },
+  { name: "แจ็คกี้", img: "af04/af44.jpg" },
+  { name: "เจโลว์", img: "af04/af45.jpg" },
+  { name: "ใบตอง", img: "af04/af46.jpg" },
+  { name: "โฟน", img: "af04/af47.jpg" },
+  { name: "แคท", img: "af04/af48.jpg" },
+  { name: "ชูหลุน", img: "af04/af49.jpg" },
+  { name: "แทน", img: "af04/af50.jpg" },
+
+  { name: "มะปิง", img: "af04/af51.jpg" },
+  { name: "ดาก้า", img: "af04/af52.jpg" },
+  { name: "แพรวา", img: "af04/af53.jpg" },
+  { name: "มัลดีฟส์", img: "af04/af54.jpg" },
+  { name: "โฟร์ท", img: "af04/af55.jpg" },
+  { name: "นามิ", img: "af04/af56.jpg" },
+  { name: "มายด์", img: "af04/af57.jpg" },
+  { name: "อาร์ม", img: "af04/af58.jpg" },
+  { name: "ฟาลลอน", img: "af04/af59.jpg" },
+  { name: "ข้าวปั้น", img: "af04/af60.jpg" },
+
+  { name: "ชอ", img: "af04/af61.jpg" },
+  { name: "โบ", img: "af04/af62.jpg" },
+  { name: "อาจิง", img: "af04/af63.jpg" },
+  { name: "เดน่า", img: "af04/af64.jpg" },
+  { name: "เจเจ", img: "af04/af65.jpg" },
+  { name: "ข้าวโพด", img: "af04/af66.jpg" },
+  { name: "ปริ้นเซส", img: "af04/af67.jpg" },
+  { name: "เหว่ย", img: "af04/af68.jpg" },
+  { name: "โอชิ", img: "af04/af69.jpg" },
+  { name: "นับทอง", img: "af04/af70.jpg" },
+
+  { name: "เจมส์", img: "af04/af71.jpg" },
+  { name: "ริม่า", img: "af04/af72.jpg" },
+  { name: "พี", img: "af04/af73.jpg" },
+  { name: "โฟกัส", img: "af04/af74.jpg" },
+  { name: "กิ่งแก้ม", img: "af04/af75.jpg" },
+  { name: "นิ้ม", img: "af05/af76.jpg" },
+  { name: "ลินต้า", img: "af05/af77.jpg" },
+  { name: "นาโน", img: "af05/af78.jpg" },
+  { name: "แอนนี่", img: "af05/af79.jpg" },
+  { name: "ซาน", img: "af05/af80.jpg" },
+
+  { name: "Arthur", img: "af05/af81.jpg" },
+  { name: "อาฉี", img: "af05/af82.jpg" },
+  { name: "เน้ปจูน", img: "af05/af83.jpg" },
+  { name: "คิม", img: "af05/af84.jpg" },
+  { name: "จีน่า", img: "af05/af85.jpg" },
+  { name: "กีวี่", img: "af05/af86.jpg" },
+  { name: "jenny", img: "af05/af87.jpg" },
+  { name: "นิว", img: "af05/af88.jpg" },
+  { name: "อ้อม", img: "af05/af89.jpg" },
+  { name: "มิคกี้", img: "af05/af90.jpg" },
+
+  { name: "วิน", img: "af05/af91.jpg" },
+  { name: "เจแปน", img: "af05/af92.jpg" },
+  { name: "เนเน่", img: "af05/af93.jpg" },
+  { name: "กาย", img: "af05/af94.jpg" },
+  { name: "Hope3rd", img: "af06/af95.png" },
+  { name: "whawhaaaaa", img: "af06/af96.png" },
+  { name: "shaneaugustin", img: "af06/af97.png" },
+  { name: "elrin.thitar", img: "af06/af98.png" },
+  { name: "setzero.9", img: "af06/af99.png" },
+  { name: "ananchai.bank", img: "af06/af100.png" }
+];
+
+const grid = document.getElementById("grid");
+
+/* ===== render ===== */
+function render(list = contestants){
+  grid.innerHTML="";
+  list.forEach(c=>{
+    let div=document.createElement("div");
+    div.className="card";
+    div.innerHTML=`<img src="${c.img}"><p>${c.name}</p>`;
+
+    if(selected.includes(c.name)) div.classList.add("selected");
+
+    div.onclick=()=>{
+      if(selected.includes(c.name)){
+        selected=selected.filter(x=>x!==c.name);
+      } else {
+        if(selected.length>=maxPick){
+          alert("เลือกได้ 12 คน!");
+          return;
+        }
+        selected.push(c.name);
+      }
+      updateUI();
+    };
+
+    grid.appendChild(div);
+  });
+}
+
+/* ===== update ===== */
+function updateUI(){
+  document.getElementById("count").innerText =
+    selected.length + " / 12";
+  render();
+}
+
+/* ===== search ===== */
+document.getElementById("search").oninput = (e)=>{
+  let keyword = e.target.value.toLowerCase();
+  let filtered = contestants.filter(c =>
+    c.name.toLowerCase().includes(keyword)
+  );
+  render(filtered);
+};
+
+/* ===== submit ===== */
+function submitPick(){
+  if(selected.length!==12){
+    alert("เลือกให้ครบ 12 คน!");
+    return;
+  }
+
+  localStorage.setItem("myTop12", JSON.stringify(selected));
+  showResult();
+}
+
+/* ===== result ===== */
+function showResult(){
+  document.getElementById("mainPage").classList.add("hidden");
+  document.getElementById("resultPage").classList.remove("hidden");
+
+  const result = JSON.parse(localStorage.getItem("myTop12"));
+  const grid = document.getElementById("resultGrid");
+  grid.innerHTML="";
+
+  result.forEach((name,index)=>{
+    const data = contestants.find(c=>c.name===name);
+
+    let div=document.createElement("div");
+    div.className="result-card";
+
+    div.innerHTML=`
+      <img src="${data.img}">
+      <p>${data.name}</p>
+    `;
+
+    grid.appendChild(div);
+
+    setTimeout(()=>{
+      div.classList.add("show");
+    }, index * 400);
+  });
+}
+
+/* ===== back ===== */
+function goBack(){
+  document.getElementById("mainPage").classList.remove("hidden");
+  document.getElementById("resultPage").classList.add("hidden");
+}
+
+/* ===== start ===== */
+render();
+</script>
+
+</body>
+</html>
